@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.DeviceMapper">
+
+    <insert id="insertDeviceLampBlackData" parameterType="com.entity.DeviceLampblackData">
+        insert into lb_device_lampblack_data
+        (create_time, remote_socket_address, mn, date_time, lampblack_speed, lampblack_temperature, lampblack_pressure, lampblack_humidity,
+        lampblack_dp, ozone, ozone_concentration, nmhc, pm, lampblack,
+        purification_device_a, purification_device_v, purification_device_status, purification_device_total_w,
+        exhaust_fan_a, exhaust_fan_v,exhaust_fan_status,exhaust_fan_total_w)
+        values
+        (
+        NOW(),
+        #{remoteSocketAddress},
+        #{mn},
+        STR_TO_DATE(${dateTime},'%Y%m%d%H%i%s%f'),
+        #{lampblackSpeed},
+        #{lampblackTemperature},
+        #{lampblackPressure},
+        #{lampblackHumidity},
+        #{lampblackDP},
+        #{ozone},
+        #{ozoneConcentration},
+        #{nmhc},
+        #{pm},
+        #{lampblack},
+        #{purificationDeviceA},
+        #{purificationDeviceV},
+        #{purificationDeviceStatus},
+        #{purificationDeviceTotalW},
+        #{exhaustFanA},
+        #{exhaustFanV},
+        #{exhaustFanStatus},
+        #{exhaustFanTotalW}
+        )
+    </insert>
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <!--上线文-->
+    <!--<contextName>logback</contextName>-->
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径  不同的环境配置不同的路径-->
+    <!--<springProfile name="dev">-->
+    <!--<property name="LOG_HOME" value="F:\log" />-->
+    <!--</springProfile>-->
+    <!--<springProfile name="test">-->
+        <!--<property name="LOG_HOME" value="/mnt/disk01/bossapp/scy/release-nlomp/log"/>-->
+    <!--</springProfile>-->
+    <!--<springProfile name="prd">-->
+        <!--<property name="LOG_HOME" value="/mnt/disk01/bossapp/scy/release-nlomp/log" />-->
+    <!--</springProfile>-->
+    <!--
+     日志输出格式： %d表示日期时间， %thread表示线程名， %-5level：级别从左显示5个字符宽度 %logger{50} 表示logger名字最长50个字符，否则按照句点分割。%msg：日志消息， %n是换行符
+     -->
+    <!-- Console 输出设置 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <!--  显示毫秒数 -->
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!--输出到文件-->
+    <appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_PATH}/lampblack-service.%d{yyyyMMdd}.%i.log</FileNamePattern>
+            <!-- 日志文件最大尺寸 -->
+            <maxFileSize>200MB</maxFileSize>
+            <!--日志文件保留天数 -->
+            <MaxHistory>15</MaxHistory>
+        </rollingPolicy>
+
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+        <!--&lt;!&ndash;日志文件输出的文件名&ndash;&gt;-->
+        <!--<FileNamePattern>${LOG_PATH}/${paas.pod.name}.nlomp-service.%d{yyyyMMdd}.log</FileNamePattern>-->
+        <!--&lt;!&ndash;日志文件保留天数&ndash;&gt;-->
+        <!--<MaxHistory>15</MaxHistory>-->
+        <!--</rollingPolicy>-->
+        <!--&lt;!&ndash;日志文件最大的大小&ndash;&gt;-->
+        <!--<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">-->
+        <!--<MaxFileSize>200MB</MaxFileSize>-->
+        <!--</triggeringPolicy>-->
+        <!-- 追加方式记录日志 -->
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- * 通配符 设置log打印级别 对所有类有效TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF-->
+    <!--将上面的appender添加到root-->
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+    <!-- 打印执行的sql name指定mapper所在的包，additivity设定为true时，父级也会打印相应的信息，相当于打印多次 -->
+    <logger name="com.dao" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <!--可以配置不同的类不同的日志级别-->
+    <!--<springProfile name="test,dev">-->
+        <!--<logger name="com.ahut.action" level="info" />-->
+    <!--</springProfile>-->
+</configuration>

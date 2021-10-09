@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.RefundOpInfoMapper">
+
+    <select id="qryRefundOpInfo"  resultType="com.entity.RefundOpInfo">
+    select
+           op_id,
+           op_name,
+           op_password,
+           refund_level,
+           phone_num
+    from refund_op_info
+    </select>
+
+    <select id="qrySecurityDatabaseInfo"  resultType="java.util.Map">
+        select
+        *
+        from security_database_info
+    </select>
+
+    <select id="qryRefundOpInfoErrorDB"  resultType="com.entity.RefundOpInfo">
+        select
+        op_id,
+        op_name,
+        op_password,
+        refund_level,
+        phone_num
+        from refund_op_info
+    </select>
+
+    <select id="queryDatabaseInfoDefaultDB"  resultType="java.util.Map">
+        select
+        *
+        from security_database_info
+    </select>
+</mapper>
