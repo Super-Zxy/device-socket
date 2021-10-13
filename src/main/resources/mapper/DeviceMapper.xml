@@ -3,35 +3,65 @@
 <mapper namespace="com.dao.DeviceMapper">
 
     <insert id="insertDeviceLampBlackData" parameterType="com.entity.DeviceLampblackData">
-        insert into lb_device_lampblack_data
-        (create_time, remote_socket_address, mn, date_time, lampblack_speed, lampblack_temperature, lampblack_pressure, lampblack_humidity,
-        lampblack_dp, ozone, ozone_concentration, nmhc, pm, lampblack,
-        purification_device_a, purification_device_v, purification_device_status, purification_device_total_w,
-        exhaust_fan_a, exhaust_fan_v,exhaust_fan_status,exhaust_fan_total_w)
+        insert into ${lbDeviceDataTableName}
+        (qn, st, cn, pw, mn, flag, date_time,
+         exhaust_fan_status, purification_device_status, lampblack, pm, nmhc,
+         create_time)
         values
         (
-        NOW(),
-        #{remoteSocketAddress},
+        #{qn},
+        #{st},
+        #{cn},
+        #{pw},
         #{mn},
-        STR_TO_DATE(${dateTime},'%Y%m%d%H%i%s%f'),
-        #{lampblackSpeed},
-        #{lampblackTemperature},
-        #{lampblackPressure},
-        #{lampblackHumidity},
-        #{lampblackDP},
-        #{ozone},
-        #{ozoneConcentration},
-        #{nmhc},
-        #{pm},
-        #{lampblack},
-        #{purificationDeviceA},
-        #{purificationDeviceV},
-        #{purificationDeviceStatus},
-        #{purificationDeviceTotalW},
-        #{exhaustFanA},
-        #{exhaustFanV},
+        #{flag},
+        STR_TO_DATE(#{dateTime},'%Y%m%d%H%i%s%f'),
         #{exhaustFanStatus},
-        #{exhaustFanTotalW}
+        #{purificationDeviceStatus},
+        #{lampblack},
+        #{pm},
+        #{nmhc},
+        NOW()
         )
     </insert>
+
+
+    <update id="createLBDataTableAndIndex">
+        <![CDATA[
+            CREATE TABLE ${lbDataTableName} (
+                qn BIGINT (20) NOT NULL,
+                st TINYINT (3) UNSIGNED NOT NULL,
+                cn SMALLINT (6) NOT NULL,
+                pw MEDIUMINT (9) NOT NULL,
+                mn BIGINT (20) NOT NULL,
+                flag TINYINT (3) UNSIGNED NOT NULL,
+                date_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+                exhaust_fan_status TINYINT (4) NOT NULL,
+                purification_device_status TINYINT (4) NOT NULL,
+                lampblack DOUBLE NOT NULL,
+                pm DOUBLE NOT NULL,
+                nmhc DOUBLE NOT NULL,
+                create_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+                INDEX index_mn_datetime (mn, date_time)
+            ) ENGINE = INNODB DEFAULT CHARSET = utf8
+       ]]>
+    </update>
+
+
+    <select id="qryTableByTableName" resultType="java.util.Map">
+        <![CDATA[
+            SELECT
+	          table_name
+            FROM
+	          information_schema.TABLES
+            WHERE
+	          TABLE_SCHEMA = '${dbName}'
+            AND TABLE_NAME = '${tableName}'
+        ]]>
+    </select>
+
+    <delete id="dropTable">
+        drop table ${tableName}
+    </delete>
+
 </mapper>

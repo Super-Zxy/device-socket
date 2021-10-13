@@ -40,7 +40,7 @@
         <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
         <!--打印sql语句-->
         <setting name="logPrefix" value="dao."/>
-        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <setting name="logImpl" value="SLF4J"/>
     </settings>
 
 </configuration>

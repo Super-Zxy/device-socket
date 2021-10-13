@@ -72,3 +72,7 @@ socket:
   pool-max: 20
   # 线程队列容量 10
   pool-queue-init: 10
+
+deviceDbAndTable:
+  dbName: lampblackdb
+  tableName: lb_device_data

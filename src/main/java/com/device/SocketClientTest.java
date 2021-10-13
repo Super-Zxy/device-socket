@@ -16,15 +16,17 @@ import java.util.concurrent.Executors;
 @Slf4j
 public class SocketClientTest {
 
-	public static void main(String[] args) {
-		ExecutorService clientService = Executors.newCachedThreadPool();
-		String userId = "dingxu";
-		for (int i = 0; i < 2; i++) {
-			int index = i;
-			clientService.execute(() -> {
-				try {
-					SocketClient client;
-					client = new SocketClient(InetAddress.getByName("localhost"), 8068);
+    public static void main(String[] args) {
+        SocketClientTest.deal();
+    }
+
+    public static void deal(){
+        String userId = "dingxu";
+        for (int i = 0; i < 1; i++) {
+            int index = i;
+            try {
+                SocketClient client;
+                client = new SocketClient(InetAddress.getByName("121.37.178.53"), 8068);
 ////					登陆
 //					ClientSendDto dto = new ClientSendDto();
 //					dto.setFunctionCode(FunctionCodeEnum.LOGIN.getValue());
@@ -42,16 +44,15 @@ public class SocketClientTest {
 //							client.close();
 //						}
 //					}, 0, 5, TimeUnit.SECONDS);
-					while (true){
-						client.println("MN=123456;DataTime=20190312113200001;a01011-Rtd=11;a01012-Rtd=22;a01013-Rtd=33;a01014-Rtd=44;a01017-Rtd=55;a05024-Rtd=66;a19002-Rtd=77;a24088-Rtd=88;a34000-Rtd=99;a34041-Rtd=100;ga0601-Rtd=110;ga0611-Rtd=120;ga0701-Rtd=130;ga0801-Rtd=140;ga2001-Rtd=150;ga2011-Rtd=160;ga2101-Rtd=170;ga2201-Rtd=180;");
-						Thread.sleep(10000);
-					}
-				} catch (Exception e) {
-					log.error(e.getMessage());
-				}
-
-			});
-		}
-	}
+                while (true) {
+                    client.println("##0181QN=20211011123600000;ST=51;CN=2011;PW=123456;MN=864480047048540;Flag=5;CP=&&DataTime=20211011123600000;ga2101-Rtd=1;ga0701-Rtd=1;a34041-Rtd=2.04;a34000-Rtd=1.41;a24088-Rtd=5.67;&&?A");
+                    Thread.sleep(10000);
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                SocketClientTest.deal();
+            }
+        }
+    }
 
 }

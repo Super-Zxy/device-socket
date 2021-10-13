@@ -77,21 +77,31 @@ public class ConnectionThread extends Thread {
                     //解析油烟监控设备数据
                     DeviceLampblackData deviceLampblackData = new DeviceLampblackData();
 
-                    deviceLampblackData.setRemoteSocketAddress(String.valueOf(socket.getRemoteSocketAddress()));
+                    Date nowDate=new Date();
+                    //本月
+                    String currentYm=this.socketServer.ymSdf.format(nowDate);
+                    deviceLampblackData.setLbDeviceDataTableName(this.socketServer.getTableName()+"_"+currentYm);
+
+//                    deviceLampblackData.setRemoteSocketAddress(String.valueOf(socket.getRemoteSocketAddress()));
 
                     //根据;分隔所有参数，与LampBlackMap匹配获取参数值
-                    ConnectionThread.findDeviceValueBySplit(deviceLampblackData, message);
+//                    ConnectionThread.findDeviceValueBySplit(deviceLampblackData, message);
 
                     //根据参数LampBlackMap获取报文中对应参数值
-//                  DeviceHandlerThread.findDeviceValueByKeyMap(deviceLampblackData,clientInputStr);
+                    ConnectionThread.findDeviceValueByKeyMap(deviceLampblackData,message);
 
                     //入表
-
                     int nRet = this.socketServer.getDeviceService().addDeviceLampBlackData(deviceLampblackData);
 
+                    log.info("油烟socket服务端，数据入库结束：" + nRet);
+
+                    break;
                 }
+                //处理结束停止socket
+                this.stopRunning();
             } catch (Exception e) {
                 log.error("ConnectionThread.run failed. Exception:{}", e.getMessage());
+                e.printStackTrace();
                 this.stopRunning();
             }
         }

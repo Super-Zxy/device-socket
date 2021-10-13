@@ -21,7 +21,7 @@ public class SocketConstant {
 	/**
 	 * 最多开2000个socket线程，超过的直接拒绝
 	 */
-	public static final int MAX_SOCKET_THREAD_NUM = 2000;
+	public static final int MAX_SOCKET_THREAD_NUM = 3000;
 
 	/**
 	 * 重试次数：3

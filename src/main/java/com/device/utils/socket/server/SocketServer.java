@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -36,6 +37,8 @@ public class SocketServer implements CommandLineRunner {
      */
     private final static Logger logger = LoggerFactory.getLogger(SocketServer.class);
 
+    SimpleDateFormat ymSdf = new SimpleDateFormat("yyyyMM");
+
     @Autowired
     private DeviceService deviceService;
 
@@ -54,6 +57,13 @@ public class SocketServer implements CommandLineRunner {
     //线程队列容量 10
     @Value("${socket.pool-queue-init}")
     public int poolQueueInit = 10;
+
+    @Value("${deviceDbAndTable.dbName}")
+    private String dbName;
+
+    @Value("${deviceDbAndTable.tableName}")
+    private String tableName;
+
 
     private ServerSocket serverSocket;
 

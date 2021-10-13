@@ -38,6 +38,7 @@ class ListeningThread extends Thread {
 				Socket socket;
 				socket = serverSocket.accept();
 				if (socketServer.getExistConnectionThreadList().size() > SocketConstant.MAX_SOCKET_THREAD_NUM) {
+					log.info("已超过连接最大数限制，请稍后再试：：当前连接数"+socketServer.getExistConnectionThreadList().size());
 					//超过线程数量
 					PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
 					ServerSendDto dto = new ServerSendDto();
