@@ -274,6 +274,7 @@
                         <exclude>*.txt</exclude>
                         <exclude>*.xml</exclude>
                         <exclude>**/*.properties</exclude>
+						<exclude>bin/*.sh</exclude>
                     </excludes>
                 </configuration>
             </plugin>

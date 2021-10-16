@@ -121,21 +121,26 @@ public class SocketServer implements CommandLineRunner {
         }
         listeningThread = new ListeningThread(this);
         listeningThread.start();
-        //每隔1s扫一次ThreadList
-        scheduleSocketMonitorExecutor.scheduleWithFixedDelay(() -> {
-            Date now = new Date();
-            //删除list中没有用的thread引用
-            existConnectionThreadList.forEach(connectionThread -> {
-                if (!connectionThread.isRunning()) {
-                    noConnectionThreadList.add(connectionThread);
-                }
-            });
-            noConnectionThreadList.forEach(connectionThread -> {
-                existConnectionThreadList.remove(connectionThread);
-                this.existSocketMap.remove(connectionThread.getConnection().getUserId());
-            });
-            noConnectionThreadList.clear();
-        }, 0, 1, TimeUnit.SECONDS);
+//        //每隔1s扫一次ThreadList
+//        scheduleSocketMonitorExecutor.scheduleWithFixedDelay(() -> {
+//            System.out.println("before---existConnectionThreadList="+existConnectionThreadList);
+//            System.out.println("before---noConnectionThreadList="+noConnectionThreadList);
+//            Date now = new Date();
+//            //删除list中没有用的thread引用
+//            existConnectionThreadList.forEach(connectionThread -> {
+//                if (!connectionThread.isRunning()) {
+//                    noConnectionThreadList.add(connectionThread);
+//                }
+//            });
+//            noConnectionThreadList.forEach(connectionThread -> {
+//                existConnectionThreadList.remove(connectionThread);
+//                this.existSocketMap.remove(connectionThread.getConnection().getUserId());
+//            });
+//            noConnectionThreadList.clear();
+//            System.out.println("after---existConnectionThreadList="+existConnectionThreadList);
+//            System.out.println("after---noConnectionThreadList="+noConnectionThreadList);
+//
+//        }, 0, 1, TimeUnit.SECONDS);
     }
 
     /**

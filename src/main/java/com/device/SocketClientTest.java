@@ -20,13 +20,13 @@ public class SocketClientTest {
         SocketClientTest.deal();
     }
 
-    public static void deal(){
+    public static void deal() {
         String userId = "dingxu";
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             int index = i;
             try {
                 SocketClient client;
-                client = new SocketClient(InetAddress.getByName("121.37.178.53"), 8068);
+                client = new SocketClient(InetAddress.getByName("localhost"), 8068);
 ////					登陆
 //					ClientSendDto dto = new ClientSendDto();
 //					dto.setFunctionCode(FunctionCodeEnum.LOGIN.getValue());
@@ -44,10 +44,10 @@ public class SocketClientTest {
 //							client.close();
 //						}
 //					}, 0, 5, TimeUnit.SECONDS);
-                while (true) {
-                    client.println("##0181QN=20211011123600000;ST=51;CN=2011;PW=123456;MN=864480047048540;Flag=5;CP=&&DataTime=20211011123600000;ga2101-Rtd=1;ga0701-Rtd=1;a34041-Rtd=2.04;a34000-Rtd=1.41;a24088-Rtd=5.67;&&?A");
-                    Thread.sleep(10000);
-                }
+
+                client.println("##0181QN=20211011123600000;ST=51;CN=2011;PW=123456;MN=864480047048540;Flag=5;CP=&&DataTime=20211011123600000;ga2101-Rtd=1;ga0701-Rtd=1;a34041-Rtd=2.04;a34000-Rtd=1.41;a24088-Rtd=5.67;&&?A");
+                Thread.sleep(10000);
+                client.close();
             } catch (Exception e) {
                 log.error(e.getMessage());
                 SocketClientTest.deal();

@@ -111,6 +111,7 @@ public class ConnectionThread extends Thread {
         log.info("停止一个socket连接,ip:{},userId:{}", this.socket.getInetAddress().toString(),
                 this.connection.getUserId());
         isRunning = false;
+        socketServer.getExistConnectionThreadList().remove(this);
         try {
             socket.close();
         } catch (IOException e) {

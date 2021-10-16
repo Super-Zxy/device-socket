@@ -15,7 +15,7 @@
         #{pw},
         #{mn},
         #{flag},
-        STR_TO_DATE(#{dateTime},'%Y%m%d%H%i%s%f'),
+        NOW(),
         #{exhaustFanStatus},
         #{purificationDeviceStatus},
         #{lampblack},

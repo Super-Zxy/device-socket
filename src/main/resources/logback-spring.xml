@@ -54,12 +54,12 @@
     </appender>
     <!-- * 通配符 设置log打印级别 对所有类有效TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF-->
     <!--将上面的appender添加到root-->
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>
     <!-- 打印执行的sql name指定mapper所在的包，additivity设定为true时，父级也会打印相应的信息，相当于打印多次 -->
-    <logger name="com.dao" level="DEBUG" additivity="false">
+    <logger name="com.dao" level="INFO" additivity="false">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </logger>
