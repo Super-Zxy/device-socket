@@ -10,8 +10,8 @@ spring:
       lampblackDB:
         name: lampblackDB
         driver-class-name: com.mysql.jdbc.Driver
-#        url: jdbc:mysql://123.60.23.225:3308/lampblackdb?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
-        url: jdbc:mysql://123.60.88.34:3306/lampblackdb?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+        url: jdbc:mysql://123.60.23.225:3308/lampblackdb?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+#        url: jdbc:mysql://123.60.88.34:3306/lampblackdb?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
         username: lampblack
         password: LB!QAZxsw2
         tns: lampblackDB

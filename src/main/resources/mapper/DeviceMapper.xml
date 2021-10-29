@@ -29,6 +29,7 @@
     <update id="createLBDataTableAndIndex">
         <![CDATA[
             CREATE TABLE ${lbDataTableName} (
+                id int(11) NOT NULL AUTO_INCREMENT,
                 qn BIGINT (20) NOT NULL,
                 st TINYINT (3) UNSIGNED NOT NULL,
                 cn SMALLINT (6) NOT NULL,
@@ -42,6 +43,7 @@
                 pm DOUBLE NOT NULL,
                 nmhc DOUBLE NOT NULL,
                 create_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+                PRIMARY KEY (id),
                 INDEX index_mn_datetime (mn, date_time)
             ) ENGINE = INNODB DEFAULT CHARSET = utf8
        ]]>
