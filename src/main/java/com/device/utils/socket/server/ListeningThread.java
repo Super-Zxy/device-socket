@@ -38,16 +38,16 @@ class ListeningThread extends Thread {
 				Socket socket;
 				socket = serverSocket.accept();
                 log.info("SocketClient当前连接数：："+socketServer.getExistConnectionThreadList().size());
-				if (socketServer.getExistConnectionThreadList().size() > SocketConstant.MAX_SOCKET_THREAD_NUM) {
-					log.info("已超过连接最大数限制，请稍后再试：：当前连接数"+socketServer.getExistConnectionThreadList().size());
-					//超过线程数量
-					PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
-					ServerSendDto dto = new ServerSendDto();
-					dto.setStatusCode(999);
-					dto.setErrorMessage("已超过连接最大数限制，请稍后再试");
-					writer.println(JSONObject.toJSONString(dto));
-					socket.close();
-				}
+//				if (socketServer.getExistConnectionThreadList().size() > SocketConstant.MAX_SOCKET_THREAD_NUM) {
+//					log.info("已超过连接最大数限制，请稍后再试：：当前连接数"+socketServer.getExistConnectionThreadList().size());
+//					//超过线程数量
+//					PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+//					ServerSendDto dto = new ServerSendDto();
+//					dto.setStatusCode(999);
+//					dto.setErrorMessage("已超过连接最大数限制，请稍后再试");
+//					writer.println(JSONObject.toJSONString(dto));
+//					socket.close();
+//				}
 				//设置超时时间为5s（有心跳机制了不需要设置）
 				//				socket.setSoTimeout(5 * 1000);
 				ConnectionThread connectionThread = new ConnectionThread(socket, socketServer);

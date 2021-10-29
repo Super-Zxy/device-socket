@@ -45,7 +45,7 @@ public class SocketClientTest {
 //						}
 //					}, 0, 5, TimeUnit.SECONDS);
 
-                client.println("##0181QN=20211011123600000;ST=51;CN=2011;PW=123456;MN=864480047048540;Flag=5;CP=&&DataTime=20211011123600000;ga2101-Rtd=1;ga0701-Rtd=1;a34041-Rtd=2.04;a34000-Rtd=1.41;a24088-Rtd=5.67;&&?A");
+                client.println("##0181QN=20211011123600000;ST=51;CN=2011;PW=123456;MN=DDDD;Flag=5;CP=&&DataTime=20211011123600000;ga2101-Rtd=1;ga0701-Rtd=1;a34041-Rtd=2.04;a34000-Rtd=1.41;a24088-Rtd=5.67;&&?A");
                 Thread.sleep(10000);
                 client.close();
             } catch (Exception e) {

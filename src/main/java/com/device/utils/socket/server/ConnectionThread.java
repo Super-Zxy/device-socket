@@ -72,7 +72,7 @@ public class ConnectionThread extends Thread {
                 reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String message;
                 while ((message = reader.readLine()) != null) {
-                    log.info("油烟socket服务端收到消息：" + message);
+                    log.info("IP："+ socket.getRemoteSocketAddress()+"，油烟socket服务端收到消息：" + message);
 
                     //解析油烟监控设备数据
                     DeviceLampblackData deviceLampblackData = new DeviceLampblackData();
@@ -90,25 +90,27 @@ public class ConnectionThread extends Thread {
                     //根据参数LampBlackMap获取报文中对应参数值
                     ConnectionThread.findDeviceValueByKeyMap(deviceLampblackData,message);
 
-                    //入表
-                    int nRet = this.socketServer.getDeviceService().addDeviceLampBlackData(deviceLampblackData);
+                    if(StringUtils.isNotEmpty(deviceLampblackData.getMn())&&!"0".equals(deviceLampblackData.getMn())) {
+                        //入表
+                        int nRet = this.socketServer.getDeviceService().addDeviceLampBlackData(deviceLampblackData);
 
-                    log.info("油烟socket服务端，数据入库结束：" + nRet);
-
+                        log.info("IP："+ socket.getRemoteSocketAddress()+"，油烟socket服务端，数据入库结束：" + nRet);
+                    }else{
+                        log.error("IP："+ socket.getRemoteSocketAddress()+"，设备编号 MN 为空，不处理！！");
+                    }
                     break;
                 }
                 //处理结束停止socket
                 this.stopRunning();
             } catch (Exception e) {
-                log.error("ConnectionThread.run failed. Exception:{}", e.getMessage());
-                e.printStackTrace();
+                log.error("IP："+ socket.getRemoteSocketAddress()+"，ConnectionThread.run failed. Exception:{}", e);
                 this.stopRunning();
             }
         }
     }
 
     public void stopRunning() {
-        log.info("停止一个socket连接,ip:{},userId:{}", this.socket.getInetAddress().toString(),
+        log.info("停止一个socket连接,ip:{},userId:{}", this.socket.getRemoteSocketAddress().toString(),
                 this.connection.getUserId());
         isRunning = false;
         socketServer.getExistConnectionThreadList().remove(this);
