@@ -28,7 +28,7 @@ import java.util.concurrent.*;
 
 @Data
 @Component
-public class SocketServer implements CommandLineRunner {
+public class SocketServer {
 
     private static String tag = "SocketServer====";
 
@@ -162,11 +162,11 @@ public class SocketServer implements CommandLineRunner {
         }
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        this.setMessageHandler((connection, receiveDto) -> logger
-                .info("处理socket消息,userId:{},receiveDto:{}", connection.getUserId(),
-                        receiveDto.getMessage()));
-        this.start();
-    }
+//    @Override
+//    public void run(String... args) throws Exception {
+//        this.setMessageHandler((connection, receiveDto) -> logger
+//                .info("处理socket消息,userId:{},receiveDto:{}", connection.getUserId(),
+//                        receiveDto.getMessage()));
+//        this.start();
+//    }
 }

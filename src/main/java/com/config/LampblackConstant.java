@@ -13,4 +13,9 @@ public class LampblackConstant {
 
     public static HashMap<String,String> deviceParams=new HashMap<>();
 
+
+    public static HashMap<String,HashMap> deviceTypeParamMap=new HashMap<>();
+
+    public static HashMap<String,String> deviceMnMap=new HashMap<>();
+
 }

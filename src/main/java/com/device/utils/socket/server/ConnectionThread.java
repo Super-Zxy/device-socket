@@ -7,12 +7,11 @@ import com.util.StringUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -27,6 +26,8 @@ import java.util.Map;
 @Slf4j
 @Data
 public class ConnectionThread extends Thread {
+
+    SimpleDateFormat ymdhmsSdf = new SimpleDateFormat("yyyyMMddHHmmss");
 
     /**
      * 客户端的socket
@@ -90,13 +91,61 @@ public class ConnectionThread extends Thread {
                     //根据参数LampBlackMap获取报文中对应参数值
                     ConnectionThread.findDeviceValueByKeyMap(deviceLampblackData,message);
 
-                    if(StringUtils.isNotEmpty(deviceLampblackData.getMn())&&!"0".equals(deviceLampblackData.getMn())) {
-                        //入表
-                        int nRet = this.socketServer.getDeviceService().addDeviceLampBlackData(deviceLampblackData);
+                    switch(deviceLampblackData.getCn()){
+                        case "9021":
+                            //登录注册
+                            if("1".equals(deviceLampblackData.getFlag())){
+                                StringBuffer loginReturnMsg=new StringBuffer();
+                                loginReturnMsg.append("ST=").append(deviceLampblackData.getSt()).append(";");
+                                loginReturnMsg.append("CN=9022;");
+                                loginReturnMsg.append("PW=").append(deviceLampblackData.getPw()).append(";");
+                                loginReturnMsg.append("MN=").append(deviceLampblackData.getMn()).append(";");
+                                loginReturnMsg.append("Flag=0;");
+                                loginReturnMsg.append("CP=&&QN=").append(deviceLampblackData.getQn()).append(";");
+                                loginReturnMsg.append("Logon=1&&");
 
-                        log.info("IP："+ socket.getRemoteSocketAddress()+"，油烟socket服务端，数据入库结束：" + nRet);
-                    }else{
-                        log.error("IP："+ socket.getRemoteSocketAddress()+"，设备编号 MN 为空，不处理！！");
+                                log.info("IP："+ socket.getRemoteSocketAddress()+"，油烟socket服务端，注册登录返回信息：" + loginReturnMsg);
+
+                                OutputStream serverOutputStream = socket.getOutputStream();
+                                //回复登录结果
+                                PrintWriter printWriter = new PrintWriter(serverOutputStream);
+
+                                printWriter.write(loginReturnMsg.toString());
+                                printWriter.flush();
+                            }
+                            break;
+                        case "1011":
+                            //对时
+                            if("1".equals(deviceLampblackData.getFlag())) {
+                                StringBuffer getTimeReturnMsg = new StringBuffer();
+                                getTimeReturnMsg.append("ST=").append(deviceLampblackData.getSt()).append(";");
+                                getTimeReturnMsg.append("CN=1011;");
+                                getTimeReturnMsg.append("PW=").append(deviceLampblackData.getPw()).append(";");
+                                getTimeReturnMsg.append("MN=").append(deviceLampblackData.getMn()).append(";");
+                                getTimeReturnMsg.append("CP=&&QN=").append(deviceLampblackData.getQn()).append(";");
+                                getTimeReturnMsg.append("SystemTime=").append(ymdhmsSdf.format(new Date())).append("&&");
+
+                                log.info("IP："+ socket.getRemoteSocketAddress()+"，油烟socket服务端，对时返回信息：" + getTimeReturnMsg);
+
+                                OutputStream serverOutputStream = socket.getOutputStream();
+                                //回复登录结果
+                                PrintWriter printWriter = new PrintWriter(serverOutputStream);
+
+                                printWriter.write(getTimeReturnMsg.toString());
+                                printWriter.flush();
+                            }
+                            break;
+                        case "2011":
+                            //上传数据
+                            if(StringUtils.isNotEmpty(deviceLampblackData.getMn())&&!"0".equals(deviceLampblackData.getMn())) {
+                                //入表
+                                int nRet = this.socketServer.getDeviceService().addDeviceLampBlackData(deviceLampblackData);
+
+                                log.info("IP："+ socket.getRemoteSocketAddress()+"，油烟socket服务端，数据入库结束：" + nRet);
+                            }else{
+                                log.error("IP："+ socket.getRemoteSocketAddress()+"，设备编号 MN 为空，不处理！！");
+                            }
+                            break;
                     }
                     break;
                 }
